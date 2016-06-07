@@ -31,28 +31,27 @@ static Nan::Persistent<String> namemax_sym;
 
 ///--- V8 Nonsense
 
-#define RETURN_EXCEPTION(MSG)										   \
+#define RETURN_EXCEPTION(MSG) \
 	return Nan::ThrowError(v8::Exception::Error(Nan::New<String>(MSG).ToLocalChecked()))
 
-#define RETURN_ARGS_EXCEPTION(MSG)									  \
+#define RETURN_ARGS_EXCEPTION(MSG) \
 	return Nan::ThrowError(v8::Exception::TypeError(Nan::New<String>(MSG).ToLocalChecked()))
 
-#define REQUIRE_ARGS(ARGS)				  \
-	if (ARGS.Length() == 0)					\
+#define REQUIRE_ARGS(ARGS) \
+	if (ARGS.Length() == 0) \
 		RETURN_ARGS_EXCEPTION("missing arguments");
 
-#define REQUIRE_STRING_ARG(ARGS, I, VAR)				  \
-	REQUIRE_ARGS(ARGS);										   \
-	if (ARGS.Length() <= (I) || !ARGS[I]->IsString())		\
+#define REQUIRE_STRING_ARG(ARGS, I, VAR) \
+	REQUIRE_ARGS(ARGS); \
+	if (ARGS.Length() <= (I) || !ARGS[I]->IsString()) \
 		RETURN_ARGS_EXCEPTION("argument " #I " must be a String"); \
 	v8::String::Utf8Value VAR(ARGS[I]->ToString());
 
-#define REQUIRE_FUNCTION_ARG(ARGS, I, VAR)							  \
-	REQUIRE_ARGS(ARGS);						\
-	if (ARGS.Length() <= (I) || !ARGS[I]->IsFunction())				   \
-		RETURN_EXCEPTION("argument " #I " must be a Function");	\
+#define REQUIRE_FUNCTION_ARG(ARGS, I, VAR) \
+	REQUIRE_ARGS(ARGS); \
+	if (ARGS.Length() <= (I) || !ARGS[I]->IsFunction()) \
+		RETURN_EXCEPTION("argument " #I " must be a Function"); \
 	v8::Local<v8::Function> VAR = v8::Local<v8::Function>::Cast(ARGS[I]);
-
 
 
 ///--- libuv "baton"
@@ -108,7 +107,6 @@ Local<Object> build_stats_object(struct statvfs &s) {
 }
 
 
-
 ///--- Async APIs
 
 void _statvfs (uv_work_t *req) {
@@ -118,7 +116,6 @@ void _statvfs (uv_work_t *req) {
 	if (baton->rc != 0)
 		baton->_errno = errno;
 }
-
 
 void _statvfs_after (uv_work_t *req, int ignore_me_status_in_0_dot_10) {
 	Nan::HandleScope scope;
@@ -171,7 +168,6 @@ NAN_METHOD(_statvfs_entry) {
 	uv_queue_work(uv_default_loop(), req, _statvfs,
 		(uv_after_work_cb)_statvfs_after);
 }
-
 
 
 ///--- Actually expose this to the outside world

@@ -1,7 +1,7 @@
 {
   "name": "statvfs",
   "description": "node binding to POSIX statvfs (file system information)",
-  "version": "2.1.0",
+  "version": "3.0.0",
   "author": "Mark Cavage <mcavage@gmail.com>",
   "main": "./lib",
   "scripts": {
@@ -12,9 +12,9 @@
     "url": "git://github.com/mcavage/node-statvfs.git"
   },
   "engines": {
-    "node": ">=0.10.0"
+    "node": ">=4.0"
   },
   "dependencies": {
-    "nan": "^2.1.0"
+    "nan": "^2.3.5"
   }
 }
